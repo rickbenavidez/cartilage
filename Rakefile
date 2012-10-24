@@ -39,7 +39,7 @@ namespace :test do
     # Having trouble running this in Chrome due to cross-origin issues due to file://? 
     # Quit Chrome and let open start it up with the -allow-file-access-from-files flag 
     # which should make things work again. FF and Safari work fine with the default 'open'.
-    system "phantomjs --local-to-remote-url-access=yes #{File.dirname(__FILE__)}/test/framework/vendor/runner.js #{File.dirname(__FILE__)}/test/framework/index.html"
+    system "phantomjs --debug=no --local-to-remote-url-access=yes #{File.dirname(__FILE__)}/test/framework/vendor/run-qunit.js #{File.dirname(__FILE__)}/test/framework/index.html"
   end
 
 end
