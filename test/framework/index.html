@@ -19,6 +19,16 @@
     <!-- Cartilage -->
     <script src="../../cartilage.js"></script>
 
+    <!-- Carilage references JST from sprockets but that is not available
+         in thits particular context so let's just copy it over manually so
+         we don't get errors from JST being undefined  -->
+
+    <script>
+      (function() {
+        this.JST || (this.JST = {});
+      }).call(this);
+    </script>
+
     <!-- Tests -->
     <script type="text/coffeescript">
 
