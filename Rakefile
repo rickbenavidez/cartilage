@@ -26,19 +26,11 @@ Bundler::GemHelper.install_tasks
 require 'rake/testtask'
 
 desc "Run tests for both engine and framework"
-task :test => [ "test:engine", "test:framework" ] do
+task :test => [ "test:framework" ] do
   # ...
 end
 
 namespace :test do
-
-  Rake::TestTask.new(:engine) do |t|
-    t.libs << 'lib'
-    t.libs << 'test'
-    t.pattern = 'test/**/*_test.rb'
-    t.verbose = false
-  end
-
   desc "Run tests for framework"
   task :framework => [ :compile ] do
     # You'll want to replace this with whatever you're using to launch a browser 
@@ -47,8 +39,7 @@ namespace :test do
     # Having trouble running this in Chrome due to cross-origin issues due to file://? 
     # Quit Chrome and let open start it up with the -allow-file-access-from-files flag 
     # which should make things work again. FF and Safari work fine with the default 'open'.
-    # system "open -a \"Google Chrome.app\" #{File.dirname(__FILE__)}/test/framework/index.html --args -allow-file-access-from-files"
-    system "open #{File.dirname(__FILE__)}/test/framework/index.html"
+    system "phantomjs --local-to-remote-url-access=yes #{File.dirname(__FILE__)}/test/framework/vendor/runner.js #{File.dirname(__FILE__)}/test/framework/index.html"
   end
 
 end
