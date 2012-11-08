@@ -33,15 +33,30 @@ class window.Cartilage.View extends Backbone.View
   # templates).
   #
   template: (options) ->
+
     try
+      # try to find the template by exact match
+      # App.Views.CampaignsView would be 'campaigns_view.jst'
       if JST[_.underscore(@constructor.name)]
         JST[_.underscore(@constructor.name)](options)
+
+      # If we are a sublcass try to find the template by normalizing
+      # the parent and sub classnmes as folder/file
+      # App.Views.Campaigns.Index would be 'campaigns/index'
+      # 
+      # To get 'Campaigns' such that it will allow this structure,
+      # you'll need to create the empty parent 'Campaigns' class 
+      # that extends from Cartilage.View
       else
-        if console
-          console.info "Missing template #{_.underscore(@constructor.name)}.jst.ejs for #{@constructor.name}"
+        parentklass = @constructor.__super__.constructor.name
+        if parentklass? && JST[(_.underscore(parentklass) + '/' + _.underscore(@constructor.name))]
+          JST[(_.underscore(parentklass) + '/' + _.underscore(@constructor.name))](options)
+        else 
+          if console
+            console.info "Missing template #{_.underscore(@constructor.name)}.jst.ejs for #{@constructor.name}"
     catch error
       if console
-        console.error "Template error in #{_.underscore(@constructor.name)}.jst.ejs: \"#{error.message}\"", error
+        console.error "template error in #{_.underscore(@constructor.name)}.jst.ejs: \"#{error.message}\"", error
 
   #
   # Override the standard constructor so that we can extend each view with any
