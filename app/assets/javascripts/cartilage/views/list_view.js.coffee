@@ -182,7 +182,7 @@ class window.Cartilage.Views.ListView extends Cartilage.View
     model = ($ element).data("model")
 
     # Do not attempt to select the element if it is already selected.
-    return if model in @_selected.models
+    return if @_selected.get(model.id)
 
     # If an element is already selected, deselect it before continuing.
     if @allowsMultipleSelection
@@ -209,7 +209,7 @@ class window.Cartilage.Views.ListView extends Cartilage.View
     model = ($ element).data("model")
 
     # Do not attempt to select the element if it is already selected.
-    return if model in @_selected.models
+    return if @_selected.get(model.id)
 
     @_selected.add model
     ($ element).addClass "selected"
@@ -244,7 +244,7 @@ class window.Cartilage.Views.ListView extends Cartilage.View
     elements = ($ @el).find "ul.list-view-items-container > li.list-view-item"
     _.each elements, (element) =>
       model = ($ element).data("model")
-      if model in @_selected.models
+      if @_selected.get(model.id)
         ($ element).addClass("selected")
       else
         @_selected.remove model
@@ -299,7 +299,7 @@ class window.Cartilage.Views.ListView extends Cartilage.View
     if event.metaKey
       model = ($ element).data("model")
       if model?
-        if model in @_selected.models
+        if @_selected.get(model.id)
           @deselect element
         else
           @selectAnother element
@@ -370,7 +370,7 @@ class window.Cartilage.Views.ListView extends Cartilage.View
       allowed = false
 
     # Ensure that the dragged item belongs to us...
-    unless Cartilage.Views.ListView.draggedItem.model in @collection.models
+    unless @collection.get(Cartilage.Views.ListView.draggedItem.model.id)
       allowed = false
 
     event.preventDefault() if allowed
