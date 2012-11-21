@@ -54,6 +54,8 @@ class window.Cartilage.Views.ListViewItem extends Cartilage.View
     # Enable dragging, if configured
     if @listView and @listView.allowsDragToReorder
       ($ @el).attr "draggable", true
+      
+    ($ @el).attr('data-model-id', @model.get('id')) if @model?
 
   onDragLeave: (event) =>
     return unless @listView.allowsDragToReorder
