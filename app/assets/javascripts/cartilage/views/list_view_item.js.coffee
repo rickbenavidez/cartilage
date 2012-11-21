@@ -62,7 +62,7 @@ class window.Cartilage.Views.ListViewItem extends Cartilage.View
   onDragStart: (event) =>
     return unless @listView.allowsDragToReorder
     event.originalEvent.dataTransfer.setData("application/x-list-view-item-id", ($ @el).attr("id"))
-    Cartilage.Views.ListView.draggedItem = @
+    @listView.draggedItems.add(@model)
 
   onDragOver: (event) =>
     return unless @listView.allowsDragToReorder
@@ -73,7 +73,7 @@ class window.Cartilage.Views.ListViewItem extends Cartilage.View
       allowed = false
 
     # Ensure that the dragged item belongs to us...
-    unless Cartilage.Views.ListView.draggedItem.model in @listView.collection.models
+    unless @listView.collection.get(@listView.draggedItems.models[0].id)
       allowed = false
 
     if allowed

@@ -63,10 +63,10 @@ class window.Cartilage.Views.ListView extends Cartilage.View
   # view.
   #
   @property "items", access: READONLY, default: new Backbone.Collection
+  @property "draggedItems", default: new Backbone.Collection
 
   # --------------------------------------------------------------------------
 
-  @draggedItem: undefined
 
   events:
     "dblclick ul.list-view-items-container > li": "open"
@@ -370,7 +370,7 @@ class window.Cartilage.Views.ListView extends Cartilage.View
       allowed = false
 
     # Ensure that the dragged item belongs to us...
-    unless Cartilage.Views.ListView.draggedItem.model in @collection.models
+    unless @collection.get(@draggedItems.models[0].id)
       allowed = false
 
     event.preventDefault() if allowed
@@ -393,7 +393,8 @@ class window.Cartilage.Views.ListView extends Cartilage.View
     ($ droppedElement).removeClass("drop-before").removeClass("drop-after")
 
     # Clear the global draggedItem reference
-    Cartilage.Views.ListView.draggedItem = false
+    @trigger 'drop', @_draggedItems
+    @_draggedItems.reset()
 
   #
   # Moves the selection to the item visually above the selected item. If there
