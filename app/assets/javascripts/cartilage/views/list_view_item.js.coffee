@@ -21,7 +21,7 @@ class window.Cartilage.Views.ListViewItem extends Cartilage.View
   #
   # The list view instance that the list view item currently belongs to.
   #
-  @property "listView", access: READONLY
+  @property "listView"
 
   #
   # Whether or not the list view item is currently selected.
